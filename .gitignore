@@ -109,3 +109,6 @@ dist
 
 # OTHER
 .DS_Store
+
+
+.env.development

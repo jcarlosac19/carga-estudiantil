@@ -1,12 +1,14 @@
 // Get dependencies
 const express = require('express');
 const http = require('http');
-const bodyParser = require('body-parser');
-const config = require('./config/index').config;
+const bodyParser = require('body-parser')
+
+const dotenv = require('dotenv');
+
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 //Routes
 const authRoutes = require('./routes/auth.routes');
-
 
 //Middlewares
 const verifyAccessLevel = require('./middleware/access.level');
@@ -36,7 +38,7 @@ app.use(urlPrefix,
       ]
 );
 
-const port = config.PORT || '3000';
+const port = process.env.PORT || '3030';
 app.set('port', port);
 
 const server = http.createServer(app);
