@@ -1,24 +1,25 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/jwt.config")
-
+const config = require("../config/jwt.config");
 
 let jwtActions = {};
 
 //JSON Web Tokens
 jwtActions.verifyToken = (req, res, next) => {
-  const token = req.body.token || req.query.token || req.params.token || req.headers["x-access-token"];
-
-  if (!token) {
-    res.status(403).send("Un token es requerido para esta solicitud.");
+  let token = req.headers["x-access-token"] || req.headers["authorization"];
+  if (token) {
+    token = token.replace(/^Bearer\s+/, "");
+    console.log(token);
+  } else {
+    res.status(401).send("Un token es requerido para esta solicitud.");
     return;
   }
-  
+
   try {
     const decoded = jwt.verify(token, config.keys.secret);
     req.user = decoded;
   } catch (err) {
     res.status(401).send("El token es invalido.");
-    return; 
+    return;
   }
 
   next();
@@ -27,10 +28,11 @@ jwtActions.verifyToken = (req, res, next) => {
 
 jwtActions.createToken = (id, email) => {
   return jwt.sign(
-    { 
-      user_id: id, email 
+    {
+      user_id: id,
+      email,
     },
-      config.keys.secret,
+    config.keys.secret,
     {
       expiresIn: config.keys.expiresIn,
     }

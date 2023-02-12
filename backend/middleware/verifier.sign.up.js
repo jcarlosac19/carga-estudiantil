@@ -18,8 +18,8 @@ signUp.verifyIfUserExist = async (req, res, next) =>{
 };
 
 signUp.verifyRequiredFields = (req, res, next) => {
-    const { nombres, apellidos, email, password } = req.body;
-    hasRequestAllRequiredFields = email && password && nombres && apellidos
+    const { name, lastName, email, password } = req.body;
+    hasRequestAllRequiredFields = email && password && name && lastName
     if (!hasRequestAllRequiredFields) {
         res.status(400).send("Todos los campos son requeridos. Prueba");
         return;

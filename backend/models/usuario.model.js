@@ -2,19 +2,18 @@ const mongoose = require("mongoose");
 
 const usuarioSchema = new mongoose.Schema(
   {
-    nombres         : { type: String, default: null },
-    apellidos       : { type: String, default: null },
-    email           : { type: String, unique: true },
-    password        : { type: String, default: null },
-    es_administrador: { type: Boolean, default: false },
-    es_usuario      : { type: Boolean, default: true },
-    esta_activo     : { type: Boolean, default: true },
+    name: { type: String, default: null },
+    lastName: { type: String, default: null },
+    email: { type: String, unique: true },
+    password: { type: String, default: null },
+    role: { type: String, default: 'user' },
+    active: { type: Boolean, default: true },
   },
   {
     timestamps: {
-      createdAt: "creado_a",
-      updatedAt: "actualizado_a"
-    }
+      createdAt: "createdAt",
+      updatedAt: "updatedAt",
+    },
   }
 );
 
