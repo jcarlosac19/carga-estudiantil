@@ -4,16 +4,13 @@ const auth = require("../middleware/jwt.auth");
 
 exports.register = async (req, res) => {
   try {
-    const { nombres, apellidos, email, password } = req.body;
+    const { name, lastName, email, password } = req.body;
     encryptedPassword = await bcrypt.hash(password, 10);
     const user = await Usuario.create({
-      nombres,
-      apellidos,
+      name,
+      lastName,
       email: email.toLowerCase(),
-      password: encryptedPassword,
-      es_administrador: false,
-      es_usuario: true,
-      esta_activo: true
+      password: encryptedPassword
     });
 
     const token = auth.createToken(user._id, email);
@@ -21,7 +18,7 @@ exports.register = async (req, res) => {
     res.status(201).send(
       {
         message: "Se creo la cuenta exitosamente.",
-        token: `Bearer ${token}`
+        token: token
       });
 
     } catch (err) {
@@ -37,11 +34,13 @@ exports.login = async (req, res) => {
       const token = auth.createToken(user._id, email);
 
       user.token = token;
+      console.log(user);
+      console.log(token);
 
       res.status(200).json({
         message: "Las credenciales han sido validadas.",
-        token: `Bearer ${token}`,
-        Role: user.role
+        token: token,
+        userId: user._id
       });
     } else {
       res.status(400).send("Las credenciales son invalidas.");

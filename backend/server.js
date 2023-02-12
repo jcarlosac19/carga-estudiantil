@@ -1,45 +1,45 @@
 // Get dependencies
-const express = require('express');
-const http = require('http');
-const bodyParser = require('body-parser')
+const express = require("express");
+const http = require("http");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const dotenv = require("dotenv");
 
-const dotenv = require('dotenv');
-
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 //Routes
-const authRoutes = require('./routes/auth.routes');
+const authRoutes = require("./routes/auth.routes");
+const usersRoutes = require('./routes/user.routes');
 
 //Middlewares
-const verifyAccessLevel = require('./middleware/access.level');
-const verifyToken = require('./middleware/jwt.auth');
+const verifyAccessLevel = require("./middleware/access.level");
+const verifyToken = require("./middleware/jwt.auth");
 
 const app = express();
-const urlPrefix = '/api/v1';
+const authURLPrefix = "/api/v1/auth";
+const usersURLPrefix = '/api/v1/users';
 
 require("./config/db.config").connect();
 
+// General
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
 
 app.get("/", (req, res) => {
-    res.json({ message: "La API esta corriendo..." });
-  });
+  res.json({ message: "La API esta corriendo..." });
+});
 
-app.use(urlPrefix,authRoutes);
+// Auth
+app.use(authURLPrefix, authRoutes);
+app.use(authURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], []);
 
-app.use(urlPrefix,
-    [
-      verifyToken.verifyToken,
-      verifyAccessLevel.isActive
-    ],
-      [
+// Users
+app.use(usersURLPrefix, usersRoutes);
 
-      ]
-);
-
-const port = process.env.PORT || '3030';
-app.set('port', port);
+// Port
+const port = process.env.PORT || "3030";
+app.set("port", port);
 
 const server = http.createServer(app);
 
