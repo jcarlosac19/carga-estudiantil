@@ -6,6 +6,8 @@ const usuarioSchema = new mongoose.Schema(
     lastName: { type: String, default: null },
     email: { type: String, unique: true },
     password: { type: String, default: null },
+    account: { type: String, default: null },
+    phone: { type: String, default: null },
     role: { type: String, default: 'user' },
     active: { type: Boolean, default: true },
   },
