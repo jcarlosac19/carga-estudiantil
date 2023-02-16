@@ -4,13 +4,15 @@ const auth = require("../middleware/jwt.auth");
 
 exports.register = async (req, res) => {
   try {
-    const { name, lastName, email, password } = req.body;
+    const { name, lastName, email, password, account, phone } = req.body;
     encryptedPassword = await bcrypt.hash(password, 10);
     const user = await Usuario.create({
       name,
       lastName,
       email: email.toLowerCase(),
-      password: encryptedPassword
+      password: encryptedPassword,
+      account,
+      phone
     });
 
     const token = auth.createToken(user._id, email);
