@@ -8,7 +8,6 @@ jwtActions.verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"] || req.headers["authorization"];
   if (token) {
     token = token.replace(/^Bearer\s+/, "");
-    console.log(token);
   } else {
     res.status(401).send("Un token es requerido para esta solicitud.");
     return;

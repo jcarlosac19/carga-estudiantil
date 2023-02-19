@@ -34,11 +34,9 @@ accessLevelOptions.isUser = async (req, res, next) =>{
 
 accessLevelOptions.isActive = async (req, res, next) =>{
     const { user_id } = req.user.user_id;
-
-    console.log(user_id);
     await Usuario.findOne({ user_id })
     .then(user =>{
-      if(!user.esta_activo) {
+      if(!user.active) {
         res.status(409).send("El usuario debe de estar activo para realizar esta acción.");
         return;
       }

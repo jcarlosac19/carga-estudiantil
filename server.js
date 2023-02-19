@@ -10,6 +10,12 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 //Routes
 const authRoutes = require("./routes/auth.routes");
 const usersRoutes = require('./routes/user.routes');
+const cargaRoutes = require("./routes/carga.academica.routes");
+const horariosRoutes = require("./routes/horarios.route");
+const trimestresRoutes = require("./routes/trimestre.routes");
+const ofertaRoutes = require('./routes/oferta.academica.routes');
+const materiasAprobadasRoutes = require('./routes/materias.aprobadas.routes');
+const inscripcionesRoutes = require('./routes/inscripcion.clases.alumno.route');
 
 //Middlewares
 const verifyAccessLevel = require("./middleware/access.level");
@@ -18,6 +24,12 @@ const verifyToken = require("./middleware/jwt.auth");
 const app = express();
 const authURLPrefix = "/api/v1/auth";
 const usersURLPrefix = '/api/v1/users';
+const cargaURLPrefix = '/api/v1/carga';
+const horarioURLPrefix = '/api/v1/horarios';
+const trimestreURLPrefix = '/api/v1/trimestres';
+const ofertaURLPrefix = '/api/v1/oferta';
+const masteriasAprobadasURLPrefix = '/api/v1/materias'; 
+const incripcionesURLPrefix = '/api/v1/inscripciones';
 
 require("./config/db.config").connect();
 
@@ -30,12 +42,14 @@ app.get("/", (req, res) => {
   res.json({ message: "La API esta corriendo..." });
 });
 
-// Auth
 app.use(authURLPrefix, authRoutes);
-app.use(authURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], []);
-
-// Users
-app.use(usersURLPrefix, usersRoutes);
+app.use(usersURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], usersRoutes);
+app.use(cargaURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], cargaRoutes);
+app.use(horarioURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], horariosRoutes);
+app.use(trimestreURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], trimestresRoutes);
+app.use(ofertaURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], ofertaRoutes);
+app.use(masteriasAprobadasURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], materiasAprobadasRoutes);
+app.use(incripcionesURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], inscripcionesRoutes);
 
 // Port
 const port = process.env.PORT || "3030";

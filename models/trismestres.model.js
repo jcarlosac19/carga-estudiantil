@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const cargaAcademica = new mongoose.Schema(
+const trimestre = new mongoose.Schema(
   {
     anio         : { type: Number, default: null },
     trimestre    : { type: String, enum: ['Q1','Q2','Q3','Q4'], default: null}
@@ -13,4 +13,4 @@ const cargaAcademica = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("cargaAcademica", cargaAcademica);
+module.exports = mongoose.model("trimestres", trimestre);

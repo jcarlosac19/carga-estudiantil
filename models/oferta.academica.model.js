@@ -3,19 +3,18 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const ofertaAcademica = new mongoose.Schema(
   {
-    idTrimestre         : { type: ObjectId, default: null },
-    idMateria           : { type: ObjectId, default: null },
+    trimestre           : { type: ObjectId, ref: 'trimestres', required: true },
+    materia             : { type: ObjectId, ref: 'cargaacademicas', required: true },
+    horario             : { type: ObjectId, ref: 'horarios', required: true  },
     ciudad              : { type: String, default: null },
     sede                : { type: String, default: null },
     tipoDeAsistencia    : { type: String, default: null },
-    codigoMateria       : { type: String, default: null },
-    horarioClase        : { type: String, default: null },
-    dias                : { type: Number, default: null },
+    dias                : { type: String, enum: ['13','6','24','7','5','135','12345'], default: null },
     duracion            : { type: Number, default: null },
     cupos               : { type: Number, default: null },
     area                : { type: String, default: null },
     seccionSistema      : { type: String, default: null },
-    aulaSistema         : { type: String, default: null },
+    aulaSistema         : { type: String, default: null }
   },
   {
     timestamps: {

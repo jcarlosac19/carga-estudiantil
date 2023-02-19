@@ -36,8 +36,6 @@ exports.login = async (req, res) => {
       const token = auth.createToken(user._id, email);
 
       user.token = token;
-      console.log(user);
-      console.log(token);
 
       res.status(200).json({
         message: "Las credenciales han sido validadas.",

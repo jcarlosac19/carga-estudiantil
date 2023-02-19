@@ -3,8 +3,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const materiasAprobadasAlumno = new mongoose.Schema(
   {
-    idMateria : { type: ObjectId, default: null },
-    userId    : { type: ObjectId, default: null}
+    materia : { type: ObjectId, ref: 'cargaacademicas', required: true },
+    usuario    : { type: ObjectId, ref: 'usuarios', required: true},
   },
   {
     timestamps: {
@@ -13,5 +13,7 @@ const materiasAprobadasAlumno = new mongoose.Schema(
     },
   }
 );
+
+materiasAprobadasAlumno.index({materia: 1, usuario: 1}, {unique: true});
 
 module.exports = mongoose.model("materiasAprobadasAlumno", materiasAprobadasAlumno);
