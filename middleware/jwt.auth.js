@@ -38,4 +38,8 @@ jwtActions.createToken = (id, email) => {
   );
 };
 
+jwtActions.decode = (token) => {
+  return jwt.decode(token);
+}
+
 module.exports = jwtActions;
