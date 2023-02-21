@@ -1,8 +1,10 @@
 const ofertaAcademicaModel = require('../models/oferta.academica.model');
 
 exports.crearOfertaAcademica = async(req, res) => {
-    currentUserId = req.user.user_id;
+    currentUserId = req.user._id;
     records = req.body;
+
+    records.creadoPor = currentUserId;
 
     await ofertaAcademicaModel.insertMany(records)
     .then(()=>{
@@ -27,14 +29,6 @@ exports.obtenerOfertaAcademica = async(req, res) => {
     ofertaAcademicaModel.find({})
     .populate(
         [
-            {
-                path: 'horario',
-                model: 'horarios',
-                select : {
-                    _id: 1,
-                    horario: 1
-                }
-            },
             {
                 path: 'trimestre',
                 model: 'trimestres',

@@ -14,7 +14,8 @@ const ofertaAcademica = new mongoose.Schema(
     cupos               : { type: Number, default: null },
     area                : { type: String, default: null },
     seccionSistema      : { type: String, default: null },
-    aulaSistema         : { type: String, default: null }
+    aulaSistema         : { type: String, default: null },
+    creadoPor           : { type: String, default: null }
   },
   {
     timestamps: {
