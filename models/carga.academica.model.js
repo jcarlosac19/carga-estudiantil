@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const cargaAcademica = new mongoose.Schema(
   {
-    codigoMateria                 : { type: String, unique: true, default: null },
-    nombreMateria                 : { type: String, unique: true, default: null },
+    version                       : {type: ObjectId, ref: 'cargaAcademicaVersion', required: true },
+    codigoMateria                 : { type: String, default: null },
+    nombreMateria                 : { type: String, default: null },
     codigoCarrera                 : { type: String, default: null },
     nombreCarrera                 : { type: String, default: null },
     requisitoUno                  : { type: String, default: null },

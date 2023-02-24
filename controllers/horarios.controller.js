@@ -1,6 +1,6 @@
 const horariosModel = require('../models/horarios.model');
 
-exports.crearHorario = async(req, res)=>{
+exports.crearHorario = async(req, res)=> {
     horario = req.body.horario;
     record = {
         horario: horario
