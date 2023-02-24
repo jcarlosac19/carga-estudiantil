@@ -8,7 +8,7 @@ const usuarioSchema = new mongoose.Schema(
     password: { type: String, default: null },
     account: { type: String, default: null },
     phone: { type: String, default: null },
-    role: { type: String, default: 'user' },
+    role: { type: String, default: 'student' },
     active: { type: Boolean, default: true },
   },
   {
