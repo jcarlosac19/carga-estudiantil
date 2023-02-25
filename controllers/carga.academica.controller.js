@@ -7,19 +7,17 @@ exports.crearCargaAcademica = async(req, res) => {
     creadoPor = req.user.user_id;
     records = req.body;
 
-    const {codigoMateria, nombreMateria, codigoCarrera, nombreCarrera, requisitoUno, requisitoDos, anio, requisitoUnidadesValorativas, unidadesValorativas, plan, requerimientoIndiceGraduacion } = req.body[0];
+    let modelKeys = [];
 
-    if(!codigoMateria) return res.status(400).send({message: "Falta el codigo de la materia."});
-    if(!nombreMateria) return res.status(400).send({message: "Falta el nombre de la materia."});
-    if(!codigoCarrera) return res.status(400).send({message: "Falta el codigo de la carrera."});
-    if(!nombreCarrera) return res.status(400).send({message: "Falta el nombre de la materia."});
-    if(!requisitoUno) return res.status(400).send({message: "Falta el requisito uno."});
-    if(!requisitoDos) return res.status(400).send({message: "Falta el requisito dos."});
-    if(!anio) return res.status(400).send({message: "Falta el año de la carga."});
-    if(!unidadesValorativas) return res.status(400).send({message: "Falta las unidades valorativas."});
-    if(!requisitoUnidadesValorativas) return res.status(400).send({message: "Falta el requisito de las unidades valorativas."});
-    if(!plan) return res.status(400).send({message: "Falta plan de la carga."});
-    if(!requerimientoIndiceGraduacion) return res.status(400).send({message: "Falta el requisito de indice de graduacion."});
+    cargaAcademicaModel.schema.eachPath((path)=>{
+        if(path != 'version' && path != '_id' && path != 'createdAt' && path !='updatedAt' && path != '__v')
+        modelKeys.push(path);
+    });
+
+    const  firstObject = req.body[0];
+    const keys = Object.keys(firstObject).sort();
+
+    if(JSON.stringify(modelKeys.sort()) != JSON.stringify(keys)) return res.status(400).send({message: 'El formato del archivo que cargo es invalido.'});
     
     await cargaAcademicaVersion.updateMany({},{estaActiva: false }, {new: true});
 
