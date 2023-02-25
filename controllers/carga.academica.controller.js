@@ -7,15 +7,23 @@ exports.crearCargaAcademica = async(req, res) => {
     creadoPor = req.user.user_id;
     records = req.body;
 
-    let modelKeys = [];
-
-    cargaAcademicaModel.schema.eachPath((path)=>{
-        if(path != 'version' && path != '_id' && path != 'createdAt' && path !='updatedAt' && path != '__v')
-        modelKeys.push(path);
-    });
-
     const  firstObject = req.body[0];
     const keys = Object.keys(firstObject).sort();
+
+    let modelKeys = [];
+
+    let excludedFields = {
+        version: 'version',
+        _id: '_id',
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+        __v: '__v'
+    }
+
+    cargaAcademicaModel.schema.eachPath((path)=>{
+        if(!( path in excludedFields))
+        modelKeys.push(path);
+    });
 
     if(JSON.stringify(modelKeys.sort()) != JSON.stringify(keys)) return res.status(400).send({message: 'El formato del archivo que cargo es invalido.'});
     
