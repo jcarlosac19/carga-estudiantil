@@ -6,10 +6,10 @@ exports.crearInscripcion= async(req, res)=>{
 
     inscripcionModel.insertMany(records)
     .then(() => {
-        res.status(201).send("Se agregaron los registros exitosamente.");
+        res.status(201).send({message: "Se agregaron los registros exitosamente."});
     })
     .catch((err) => {
-        res.status(201).send("No se pudieron agregar los registros.");
+        res.status(400).send({message: "No se pudieron agregar los registros."});
     });
 }
 
@@ -18,7 +18,7 @@ exports.obtenerInscripciones = async(req, res) => {
     inscripcionModel.find({usuario: userId})
     .populate('usuario materia')
     .exec((err, data) => {
-        if(err) return res.status(401).send(err);
+        if(err) return res.status(400).send(err);
         res.status(201).send(data);
     })
 }
@@ -28,9 +28,9 @@ exports.eliminarInscripcion = async(req, res) => {
 
     inscripcionModel.deleteOne({_id: materiaId})
     .then(() => {
-        res.status(201).send("Se elimno el registros exitosamente.");
+        res.status(201).send({message: "Se elimno el registros exitosamente."});
     })
     .catch((err) => {
-        res.status(201).send("No se pudo eliminar el registro.");
+        res.status(400).send({message: "No se pudo eliminar el registro."});
     });
 }

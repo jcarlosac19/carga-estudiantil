@@ -24,7 +24,7 @@ exports.register = async (req, res) => {
       });
 
     } catch (err) {
-      res.status(400).send("Hubo un error inesperado.")
+      res.status(400).send({message: "Hubo un error inesperado."})
     }
 };
 
@@ -37,13 +37,13 @@ exports.login = async (req, res) => {
 
       user.token = token;
 
-      res.status(200).json({
+      res.status(201).json({
         message: "Las credenciales han sido validadas.",
         token: token,
         userId: user._id
       });
     } else {
-      res.status(400).send("Las credenciales son invalidas.");
+      res.status(400).send({message: "Las credenciales son invalidas."});
     }
   } catch (err) {
     console.log(err);

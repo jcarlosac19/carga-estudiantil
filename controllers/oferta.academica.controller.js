@@ -8,20 +8,20 @@ exports.crearOfertaAcademica = async(req, res) => {
 
     await ofertaAcademicaModel.insertMany(records)
     .then(()=>{
-        res.status(201).send("Se registro la oferta academica exitosamente.");
+        res.status(201).send({message: "Se registro la oferta academica exitosamente."});
     })
     .catch((err)=>{
-        res.status(401).send({error: err, message: "No pudo registrar la oferta academica."});
+        res.status(400).send({message: "No pudo registrar la oferta academica."});
     });
 }
 
 exports.eliminarOfertaAcademica = async(req, res) => {
     await ofertaAcademicaModel.deleteMany({})
     .then(()=>{
-        res.status(201).send("Se elimino la oferta academica exitosamente.")
+        res.status(201).send({message: "Se elimino la oferta academica exitosamente."})
     })
     .catch((err)=> {
-        res.status(401).send("No se pudo eliminar la oferta academica.")
+        res.status(400).send({message: "No se pudo eliminar la oferta academica."})
     })
 }
 //['idHorario', 'idMateria', 'idTrimestre']

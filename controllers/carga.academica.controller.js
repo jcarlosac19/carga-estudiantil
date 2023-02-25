@@ -36,7 +36,7 @@ exports.crearCargaAcademica = async(req, res) => {
     });
 
     await cargaVersion.save(async function(err){
-        if(err) return res.status(400).send("Hubo un error.");
+        if(err) return res.status(400).send({message: "Hubo un error."});
 
         records.map(rec=>{
             rec.version = cargaVersion._id;
@@ -47,24 +47,21 @@ exports.crearCargaAcademica = async(req, res) => {
             res.status(201).send({message: "Se registro la carga academica exitosamente."});
         })
         .catch((err)=>{
-            res.status(400).send("No pudo registrar la carga academica.");
-            console.log(err)
+            res.status(400).send({message: "No pudo registrar la carga academica."});
         });
-
-
-    })
-}
+    });
+};
 
 
 exports.eliminarCargaAcademica = async(req, res) => {
     await cargaAcademicaModel.deleteMany({})
     .then(()=>{
-        res.status(201).send("Se elimino la carga academica exitosamente.")
+        res.status(201).send({message: "Se elimino la carga academica exitosamente."})
     })
     .catch((err)=> {
-        res.status(400).send("No se pudo eliminar la carga academica.")
+        res.status(400).send({message: "No se pudo eliminar la carga academica."})
     })
-}
+};
 
 exports.obtenerCargaAcademica = async(req, res) => {
     await cargaAcademicaModel.find({})
@@ -77,6 +74,6 @@ exports.obtenerCargaAcademica = async(req, res) => {
     })
     .catch((err)=> {
         console.log(err);
-        res.status(400).send("No se pudieron obtener los registros de la carga.")
+        res.status(400).send({message: "No se pudieron obtener los registros de la carga."})
     })        
-}
+};
