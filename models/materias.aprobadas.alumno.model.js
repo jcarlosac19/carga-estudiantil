@@ -3,8 +3,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const materiasAprobadasAlumno = new mongoose.Schema(
   {
-    materia : { type: ObjectId, ref: 'cargaacademicas', required: true },
-    usuario    : { type: ObjectId, ref: 'usuarios', required: true},
+    materia : { type: ObjectId, ref: 'cargaAcademica', required: true },
+    usuario    : { type: ObjectId, ref: 'usuario', required: true},
   },
   {
     timestamps: {

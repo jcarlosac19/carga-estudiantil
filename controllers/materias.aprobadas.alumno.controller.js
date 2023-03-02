@@ -1,4 +1,5 @@
 const materiasAprobadasModel = require('../models/materias.aprobadas.alumno.model');
+const cargaAcademicaModel = require('../models/carga.academica.model');
 
 exports.agregarMateriasAprobadas = async(req, res)=>{
     
@@ -16,12 +17,54 @@ exports.agregarMateriasAprobadas = async(req, res)=>{
 exports.obtenerMateriasAprobadas = async(req, res) => {
     const userId = req.params.id;
 
-    materiasAprobadasModel.find({usuario: userId})
-    .populate('materia usuarios')
-    .exec((err, data) => {
-        if(err) return res.status(400).send(err);
-        res.status(201).send(data);
-    })
+    let materias = [];
+    let materiasAlumno = [];
+
+    let materiasAprobadas = await materiasAprobadasModel.find({usuario: userId}).populate('materia').exec()  
+    let cargaAcademica = await cargaAcademicaModel.find({}).populate('version').exec();
+
+    cargaAcademica = cargaAcademica.filter(docs=> 
+        docs.version.estaActiva === true
+    );
+
+    materiasAprobadas.forEach(aprobadas =>{
+        materiasAlumno.push(aprobadas.materia.codigoMateria);
+    });
+
+    cargaAcademica.forEach(materia => {
+
+        let requisitos = [];
+
+        if(materia.requisitoUno != "") requisitos.push(materia.requisitoUno);
+        if(materia.requisitoDos != "") requisitos.push(materia.requisitoDos);
+
+        materias.push(
+            {
+                _id: materia._id,
+                materiaNombre: materia.nombreMateria,
+                nombreMateria: materia.codigoMateria,
+                nombreCarrera: materia.nombreCarrera,
+                anio: materia.anio,
+                requisitos: requisitos,
+                aprobada: false,
+                cumpleRequisitos: false,
+                puedeMatricular: false
+            }
+        );
+    });
+
+    materias.map(materia=>{
+        let requisitos = materia.requisitos;       
+        let hasAllRequirements = requisitos.every(requisito => { return materiasAlumno.includes(requisito) });
+
+        materia.cumpleRequisitos = hasAllRequirements;
+
+        if(materiasAlumno.includes(materia.materia)) materia.aprobada = true;
+        if(requisitos.length == 0) materia.cumpleRequisitos = true;
+        if(materia.cumpleRequisitos == true && materia.aprobada == false) materia.puedeMatricular = true;
+    });
+
+    res.status(201).send(materias);
 }
 
 exports.eliminarMateriaAprobada = async(req, res) => {
@@ -35,3 +78,4 @@ exports.eliminarMateriaAprobada = async(req, res) => {
         res.status(400).send({message: "No se pudo eliminar el registro."});
     });
 }
+

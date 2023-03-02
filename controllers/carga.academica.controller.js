@@ -73,7 +73,6 @@ exports.obtenerCargaAcademica = async(req, res) => {
         res.status(201).send(dataFiltrada);
     })
     .catch((err)=> {
-        console.log(err);
         res.status(400).send({message: "No se pudieron obtener los registros de la carga."})
     })        
 };

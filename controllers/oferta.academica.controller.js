@@ -4,8 +4,28 @@ exports.crearOfertaAcademica = async(req, res) => {
     currentUserId = req.user._id;
     records = req.body;
 
-    records.creadoPor = currentUserId;
+    const  firstObject = req.body[0];
+    const keys = Object.keys(firstObject).sort();
 
+    let modelKeys = [];
+
+    let excludedFields = {
+        _id: '_id',
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+        __v: '__v'
+    }
+
+    ofertaAcademicaModel.schema.eachPath((path)=>{
+        if(!( path in excludedFields))
+        modelKeys.push(path);
+    });
+
+    if(JSON.stringify(modelKeys.sort()) != JSON.stringify(keys)) return res.status(400).send({message: 'La oferta no cuenta con todos los campos requeridos.'});
+
+
+    records.creadoPor = currentUserId;
+    
     await ofertaAcademicaModel.insertMany(records)
     .then(()=>{
         res.status(201).send({message: "Se registro la oferta academica exitosamente."});
@@ -59,7 +79,6 @@ exports.obtenerOfertaAcademica = async(req, res) => {
         ]
         )
     .exec((err, oferta)=>{
-        console.log(err)
         if(err) return res.status(401).send(err);
         res.status(201).send(oferta);
     })    
