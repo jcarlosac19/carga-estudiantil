@@ -1,5 +1,6 @@
 const trismestresModel = require('../models/trismestres.model');
-
+const inscripcionModel = require('../models/inscripcion.clases.alumno.model');
+const ofertaAcademicaModel = require('../models/oferta.academica.model');
 
 exports.crearTrimestre = async(req, res) => {
     const { anio, trimestre } = req.body;
@@ -32,17 +33,23 @@ exports.obtenerTrimestres = async(req, res) => {
 }
 
 exports.eliminarTrimestre = async(req, res) => {
+    try {
+
     id = req.params.id;
+    let materiasOferta = []
 
     if(!id) return res.status(401).send({message: "Debe de especificar el trimestre que desea eliminar."});
+    
+    let ofertaAcademica = await ofertaAcademicaModel.find({trimestre: id}).select('_id').lean().exec();
+    ofertaAcademica.map(doc => materiasOferta.push(doc._id));
+    await inscripcionModel.deleteMany({ materia: { $in: materiasOferta }});
+    await ofertaAcademicaModel.deleteMany({ trimestre: id });
+    await trismestresModel.deleteOne({_id: id});
 
-    await trismestresModel.deleteOne({_id: id})
-    .then(()=>{
-        res.status(201).send({message: "Se elimino el trimestre de manera exitosa."});
-    })
-    .catch((err)=> {
-        res.status(400).send({message: "No se pudo eliminar el trimestre"});
-    })  
+    res.status(201).send({message: "Se elimino el trimestra y toda la informacion relacionada a esta, de manera exitosa."});
+    } catch(err){
+        res.status(500).send({message: "No se pudo eliminar el trimestre."})
+    }
 }
 
 exports.actualizarTrimestre = async(req, res) => {
