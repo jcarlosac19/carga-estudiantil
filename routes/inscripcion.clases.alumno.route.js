@@ -7,6 +7,8 @@ app.post("/", controller.crearInscripcion);
 
 app.delete("/:id", controller.eliminarInscripcion);
 
+app.get("/ofertadas/:id", controller.obtenerClasesOfertadasAlumnoTrimestresActivos);
+
 app.get("/:id", controller.obtenerInscripciones);
 
 module.exports = app;

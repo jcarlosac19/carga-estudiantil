@@ -4,7 +4,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const ofertaAcademica = new mongoose.Schema(
   {
     trimestre           : { type: ObjectId, ref: 'trimestres', required: true },
-    materia             : { type: ObjectId, ref: 'cargaacademicas', required: true },
+    materia             : { type: ObjectId, ref: 'cargaAcademica', required: true },
     horario             : { type: String, required: true },
     ciudad              : { type: String, default: null },
     sede                : { type: String, default: null },
