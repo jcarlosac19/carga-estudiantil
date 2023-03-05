@@ -1,9 +1,10 @@
 const diasModel = require('../models/dias.model');
 
 exports.crearDia = async(req, res)=> {
-    dia = req.body.dia;
+    const {dias, numeroDias} = req.body;
     record = {
-        dia: dia
+        dias: dias,
+        numeroDias: numeroDias
     }
     await diasModel.create(record)
     .then(()=>{

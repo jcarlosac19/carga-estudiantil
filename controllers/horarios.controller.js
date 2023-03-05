@@ -1,9 +1,10 @@
 const horariosModel = require('../models/horarios.model');
 
 exports.crearHorario = async(req, res)=> {
-    horario = req.body.horario;
+    const {horario, duracionMinutos} = req.body;
     record = {
-        horario: horario
+        horario: horario,
+        duracionMinutos: duracionMinutos
     }
     await horariosModel.create(record)
     .then(()=>{
