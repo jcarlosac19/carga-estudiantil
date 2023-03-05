@@ -42,7 +42,7 @@ exports.obtenerMateriasAprobadas = async(req, res) => {
             {
                 _id: materia._id,
                 materiaNombre: materia.nombreMateria,
-                nombreMateria: materia.codigoMateria,
+                codigoMateria: materia.codigoMateria,
                 nombreCarrera: materia.nombreCarrera,
                 anio: materia.anio,
                 requisitos: requisitos,
