@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const horarios = new mongoose.Schema(
   {
-    horario: { type: String, required: true}
+    horario: { type: String, required: true },
+    duracionMinutos: { type: Number, required: true }
   },
   {
     timestamps: {
