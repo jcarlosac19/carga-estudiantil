@@ -48,6 +48,7 @@ exports.obtenerClasesOfertadasAlumnoTrimestresActivos = async(req, res) =>{
         materias.push(
             {
                 _id: oferta._id,
+                idMateria: oferta.materia._id,
                 materiaNombre: oferta.materia.nombreMateria,
                 codigoMateria: oferta.materia.codigoMateria,
                 ciudad: oferta.ciudad,
