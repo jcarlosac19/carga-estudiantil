@@ -21,9 +21,9 @@ exports.obtenerMateriasAprobadas = async(req, res) => {
     let materiasAlumno = [];
 
     let materiasAprobadas = await materiasAprobadasModel.find({usuario: userId}).populate('materia').exec()  
-    let cargaAcademica = await cargaAcademicaModel.find({}).populate('version').exec();
+    let cargaAcademicaTodas = await cargaAcademicaModel.find({}).populate('version').exec();
 
-    cargaAcademica = cargaAcademica.filter(docs=> 
+    let cargaAcademica = cargaAcademicaTodas.filter(docs=> 
         docs.version.estaActiva === true
     );
 
