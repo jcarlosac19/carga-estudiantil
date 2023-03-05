@@ -16,7 +16,8 @@ const trimestresRoutes = require("./routes/trimestre.routes");
 const ofertaRoutes = require('./routes/oferta.academica.routes');
 const materiasAprobadasRoutes = require('./routes/materias.aprobadas.routes');
 const inscripcionesRoutes = require('./routes/inscripcion.clases.alumno.route');
-
+const reportesRoutes = require('./routes/reportes.routes');
+const diasRoutes = require('./routes/dias.routes');
 //Middlewares
 const verifyAccessLevel = require("./middleware/access.level");
 const verifyToken = require("./middleware/jwt.auth");
@@ -30,6 +31,8 @@ const trimestreURLPrefix = '/api/v1/trimestres';
 const ofertaURLPrefix = '/api/v1/oferta';
 const masteriasAprobadasURLPrefix = '/api/v1/materias'; 
 const incripcionesURLPrefix = '/api/v1/inscripciones';
+const reportesURLPrefix = '/api/v1/reportes';
+const diasURLPrefix = '/api/v1/dias';
 
 require("./config/db.config").connect();
 
@@ -50,7 +53,8 @@ app.use(trimestreURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive
 app.use(ofertaURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], ofertaRoutes);
 app.use(masteriasAprobadasURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], materiasAprobadasRoutes);
 app.use(incripcionesURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], inscripcionesRoutes);
-
+app.use(reportesURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], reportesRoutes);
+app.use(diasURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], diasRoutes);
 // Port
 const port = process.env.PORT || "3030";
 app.set("port", port);
