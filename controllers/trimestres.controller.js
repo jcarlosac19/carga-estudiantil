@@ -10,8 +10,11 @@ exports.crearTrimestre = async(req, res) => {
 
     record = {
         anio: anio,
-        trimestre: trimestre
+        trimestre: trimestre,
+        estaActivo: false
+        
     }
+
     await trismestresModel.create(record)
     .then(()=>{
         res.status(201).send({message: "Se creo el trimestre exitosamente."})
@@ -57,12 +60,12 @@ exports.actualizarTrimestre = async(req, res) => {
     const { anio, trimestre } = req.body;
 
     if(!id) return res.status(400).send({message: "Debe de especificar el trimestre que desea actualizar."});
-    if(!anio) return res.status(400).send({message: "Debe de especificar un año."});
-    if(!trimestre) return res.status(400).send({message: "Debe de especificar un trimestre."});
+
   
-    record = {
-        anio: anio,
-        trimestre: trimestre
+    let update = {
+        ...( anio && { anio }),
+        ...( trimestre  && { trimestre  }),
+        ...( estaActivo  && { estaActivo  })
     }
 
     await trismestresModel.updateOne({_id: id}, record, {

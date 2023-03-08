@@ -4,7 +4,7 @@ exports.crearOfertaAcademica = async(req, res) => {
     currentUserId = req.user._id;
     records = req.body;
 
-    const  firstObject = req.body[0];
+    const firstObject = req.body[0];
     const keys = Object.keys(firstObject).sort();
 
     let modelKeys = [];
@@ -13,6 +13,7 @@ exports.crearOfertaAcademica = async(req, res) => {
         _id: '_id',
         createdAt: 'createdAt',
         updatedAt: 'updatedAt',
+        creadoPor: 'creadoPor',
         __v: '__v'
     }
 
@@ -21,8 +22,9 @@ exports.crearOfertaAcademica = async(req, res) => {
         modelKeys.push(path);
     });
 
-    if(JSON.stringify(modelKeys.sort()) != JSON.stringify(keys)) return res.status(400).send({message: 'La oferta no cuenta con todos los campos requeridos.'});
+    modelKeys = modelKeys.sort();
 
+    if(JSON.stringify(modelKeys) != JSON.stringify(keys)) return res.status(400).send({message: 'La oferta no cuenta con todos los campos requeridos.'});
 
     records.creadoPor = currentUserId;
     
@@ -31,7 +33,13 @@ exports.crearOfertaAcademica = async(req, res) => {
         res.status(201).send({message: "Se registro la oferta academica exitosamente."});
     })
     .catch((err)=>{
-        res.status(400).send({message: "No pudo registrar la oferta academica."});
+        console.log(err);
+        if(err.code === 11000) {
+            res.status(400).send({message: "No se permite clases ofertadas duplicadas, valide y corriga el archivo."});
+        } else {
+            res.status(400).send({message: "No pudo registrar la oferta academica."});
+        }
+        
     });
 }
 

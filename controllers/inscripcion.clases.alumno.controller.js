@@ -59,7 +59,7 @@ exports.obtenerClasesOfertadasAlumnoTrimestresActivos = async(req, res) =>{
                     requisitos: requisitos,
                     duracion: oferta.duracion,
                     dias: oferta.dias,
-                    hora: oferta.hora,
+                    horario: oferta.horario,
                     area: oferta.area,
                     aprobada: false,
                     cumpleRequisitos: false,
