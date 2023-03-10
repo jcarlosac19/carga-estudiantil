@@ -57,18 +57,22 @@ exports.eliminarTrimestre = async(req, res) => {
 
 exports.actualizarTrimestre = async(req, res) => {
     id = req.params.id;
-    const { anio, trimestre } = req.body;
+    const { anio, trimestre, estaActivo } = req.body;
 
     if(!id) return res.status(400).send({message: "Debe de especificar el trimestre que desea actualizar."});
 
   
     let update = {
         ...( anio && { anio }),
-        ...( trimestre  && { trimestre  }),
-        ...( estaActivo  && { estaActivo  })
+        ...(  trimestre  && { trimestre  }),
+        ...((estaActivo !== undefined) && { estaActivo  })
     }
 
-    await trismestresModel.updateOne({_id: id}, record, {
+    console.log(update);
+
+    // const body = {estaActivo: estaActivo}
+
+    await trismestresModel.findOneAndUpdate({_id: id}, update, {
         new: true
     })
     .then(()=>{
