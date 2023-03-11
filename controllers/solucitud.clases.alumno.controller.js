@@ -30,7 +30,7 @@ exports.crearSolicitudClase = async(req, res)=>{
 exports.obtenerSolicitudesUsuario = async(req, res) => {
     const userId = req.params.id;
     solicitudClasesModel.find({usuario: userId})
-    .populate('usuario materia horario')
+    .populate('materia usuario trimestre horario dias')
     .exec((err, data) => {
         if(err) return res.status(400).send(err);
         res.status(200).send(data);

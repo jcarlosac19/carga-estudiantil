@@ -11,7 +11,8 @@ exports.crearTrimestre = async(req, res) => {
     record = {
         anio: anio,
         trimestre: trimestre,
-        estaActivo: false
+        estaActivo: false,
+        puedeMatricular: false
         
     }
 
@@ -57,18 +58,18 @@ exports.eliminarTrimestre = async(req, res) => {
 
 exports.actualizarTrimestre = async(req, res) => {
     id = req.params.id;
-    const { anio, trimestre, estaActivo } = req.body;
-
+    const { anio, trimestre, estaActivo, puedeMatricular } = req.body;
     if(!id) return res.status(400).send({message: "Debe de especificar el trimestre que desea actualizar."});
+    let trimestreLista = await trismestresModel.find({ puedeMatricular: true }).lean().exec();
+    const hasActiveEnrollment = trimestreLista.length > 0 && puedeMatricular;
+    if(hasActiveEnrollment === true) return res.status(500).send({message: "Debe desactivar todos los trimestres activos antes de poder realizar esta accion."})
 
-  
     let update = {
         ...( anio && { anio }),
-        ...(  trimestre  && { trimestre  }),
-        ...((estaActivo !== undefined) && { estaActivo  })
+        ...( trimestre  && { trimestre  }),
+        ...((estaActivo !== undefined) && { estaActivo  }),
+        ...((puedeMatricular !== undefined) && { puedeMatricular  })
     }
-
-    console.log(update);
 
     // const body = {estaActivo: estaActivo}
 
