@@ -18,6 +18,7 @@ const materiasAprobadasRoutes = require('./routes/materias.aprobadas.routes');
 const inscripcionesRoutes = require('./routes/inscripcion.clases.alumno.route');
 const reportesRoutes = require('./routes/reportes.routes');
 const diasRoutes = require('./routes/dias.routes');
+const solicitudesRoutes = require('./routes/solucitud.clases.alumno.routes');
 //Middlewares
 const verifyAccessLevel = require("./middleware/access.level");
 const verifyToken = require("./middleware/jwt.auth");
@@ -33,6 +34,7 @@ const masteriasAprobadasURLPrefix = '/api/v1/materias';
 const incripcionesURLPrefix = '/api/v1/inscripciones';
 const reportesURLPrefix = '/api/v1/reportes';
 const diasURLPrefix = '/api/v1/dias';
+const solicitudesURLPrefix = '/api/v1/solicitudes';
 
 require("./config/db.config").connect();
 
@@ -55,6 +57,7 @@ app.use(masteriasAprobadasURLPrefix, [verifyToken.verifyToken, verifyAccessLevel
 app.use(incripcionesURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], inscripcionesRoutes);
 app.use(reportesURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], reportesRoutes);
 app.use(diasURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], diasRoutes);
+app.use(solicitudesURLPrefix, [verifyToken.verifyToken, verifyAccessLevel.isActive], solicitudesRoutes);
 // Port
 const port = process.env.PORT || "3030";
 app.set("port", port);
