@@ -4,7 +4,8 @@ const trimestre = new mongoose.Schema(
   {
     anio         : { type: Number, default: null },
     trimestre    : { type: String, enum: ['Q1','Q2','Q3','Q4'], default: null },
-    estaActivo   : { type: Boolean, default: false }
+    estaActivo   : { type: Boolean, default: false },
+    puedeMatricular : { type: Boolean, default: false }
   },
   {
     timestamps: {
