@@ -62,7 +62,7 @@ exports.actualizarTrimestre = async(req, res) => {
     if(!id) return res.status(400).send({message: "Debe de especificar el trimestre que desea actualizar."});
     let trimestreLista = await trismestresModel.find({ puedeMatricular: true }).lean().exec();
     const hasActiveEnrollment = trimestreLista.length > 0 && puedeMatricular;
-    if(hasActiveEnrollment === true) return res.status(500).send({message: "Debe desactivar todos los trimestres activos antes de poder realizar esta accion."})
+    if(hasActiveEnrollment === true) return res.status(500).send({message: "Debe desactivar todos los trimestres con pre-matricula abierta antes de poder realizar esta accion."})
 
     let update = {
         ...( anio && { anio }),
