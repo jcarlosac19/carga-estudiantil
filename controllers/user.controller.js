@@ -46,6 +46,6 @@ exports.currentUser = (req, res) => {
       updatedAt: user.updatedAt,
     })
   )
-  .catch((error) => res.status(401).json({ message: error }));
+  .catch((error) => res.status(500).json({ message: error }));
 };
 
