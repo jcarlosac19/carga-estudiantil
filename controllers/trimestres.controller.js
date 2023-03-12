@@ -5,8 +5,8 @@ const ofertaAcademicaModel = require('../models/oferta.academica.model');
 exports.crearTrimestre = async(req, res) => {
     const { anio, trimestre } = req.body;
 
-    if(!anio) return res.status(401).send({message: "Debe de especificar un año."});
-    if(!trimestre) return res.status(401).send({message: "Debe de especificar un trimestre."});
+    if(!anio) return res.status(400).send({message: "Debe de especificar un año."});
+    if(!trimestre) return res.status(400).send({message: "Debe de especificar un trimestre."});
 
     record = {
         anio: anio,
@@ -42,7 +42,7 @@ exports.eliminarTrimestre = async(req, res) => {
     id = req.params.id;
     let materiasOferta = []
 
-    if(!id) return res.status(401).send({message: "Debe de especificar el trimestre que desea eliminar."});
+    if(!id) return res.status(400).send({message: "Debe de especificar el trimestre que desea eliminar."});
     
     let ofertaAcademica = await ofertaAcademicaModel.find({trimestre: id}).select('_id').lean().exec();
     ofertaAcademica.map(doc => materiasOferta.push(doc._id));
