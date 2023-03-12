@@ -87,7 +87,7 @@ exports.obtenerOfertaAcademica = async(req, res) => {
         ]
         )
     .exec((err, oferta)=>{
-        if(err) return res.status(500).send(err);
+        if(err) return res.status(401).send(err);
         res.status(201).send(oferta);
     })    
 }
