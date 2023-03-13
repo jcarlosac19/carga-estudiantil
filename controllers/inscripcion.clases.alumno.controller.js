@@ -108,15 +108,14 @@ exports.obtenerClasesOfertadasAlumnoTrimestresActivos = async (req, res) => {
   }
 };
 
-exports.eliminarInscripcion = async (req, res) => {
-  const materiaId = req.params.id;
+exports.eliminarInscripcion = async(req, res) => {
+    const materiaId = req.params.id;
 
-  inscripcionModel
-    .deleteOne({ _id: materiaId })
+    inscripcionModel.findOneAndDelete({_id: materiaId})
     .then(() => {
-      res.status(201).send({ message: "Se elimno el registros exitosamente." });
+        res.status(201).send({message: "Se elimno el registros exitosamente."});
     })
     .catch((err) => {
-      res.status(400).send({ message: "No se pudo eliminar el registro." });
+        res.status(400).send({message: "No se pudo eliminar el registro."});
     });
-};
+}
