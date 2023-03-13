@@ -3,10 +3,7 @@ const controller = require("../controllers/reportes.controller");
 
 const app = Router();
 
-// app.post("/", controller.crearCargaAcademica);
-
-// app.delete("/", controller.eliminarCargaAcademica);
-
-app.get("/", controller.reporte);
+app.get("/ofertas", controller.reporte);
+app.get("/solicitudes", controller.reporte);
 
 module.exports = app;

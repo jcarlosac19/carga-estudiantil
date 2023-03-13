@@ -12,11 +12,7 @@ exports.reporte = async(req, res) => {
 
     json2CSV.json2csv(dataFiltrada, (err, data)=> {
         if(err) return console.log({message: "No se pudo generar el CSV."});
-        res.status(201).set({
-            "Content-Type": "text/csv",
-            "Content-Disposition": `attachment; filename="users.csv"`,
-        })
-        .send(data);
+        res.status(201).send({message: "Se obtuvo el reporte exitosamente.", blob: data});
     },
     {   excelBOM: true,
         unwindArrays: true,
