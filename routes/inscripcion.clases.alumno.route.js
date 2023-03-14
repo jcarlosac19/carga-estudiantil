@@ -5,10 +5,10 @@ const app = Router();
 
 app.post("/", controller.crearInscripcion);
 
-app.delete("/:id", controller.eliminarInscripcion);
+app.delete("/:id", controller.eliminarProyeccion);
 
-app.get("/ofertadas/:id", controller.obtenerClasesOfertadasAlumnoTrimestresActivos);
+app.get("/ofertadas/inscripcion/:id", controller.obtenerClasesOfertadasAlumnoTrimestresActivos);
 
-app.get("/:id", controller.obtenerInscripciones);
+app.get("/ofertadas/proyeccion/:id", controller.obtenerInscripcionesTrimestreActual);
 
 module.exports = app;

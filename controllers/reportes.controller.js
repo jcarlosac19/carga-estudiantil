@@ -7,6 +7,8 @@ const solicitudesAcademicasReporte = async function(quarter, callback) {
     const filter = {
         trimestre: quarter
     };
+
+    const report = {}
     const solicitudes = await solicitudesModel
         .find(filter)
         .populate('materia usuario trimestre horario dias')
