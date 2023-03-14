@@ -34,7 +34,10 @@ exports.obtenerInscripcionesTrimestreActual = async (req, res) => {
 
   let materiasInscritas = await inscripcionModel
     .find({ usuario: userId })
-    .populate("materia trimestre")
+    .populate({path: 'materia', populate: {
+      path: 'materia'
+    }})
+    .populate("trimestre")
     .lean()
     .exec();
   
@@ -52,7 +55,7 @@ exports.obtenerInscripcionesTrimestreActual = async (req, res) => {
     });
 
     materiasInscritas.map((docs) => {
-      materiasAlumno.push(docs.materia.codigoMateria);
+      materiasAlumno.push(docs.materia.materia.codigoMateria);
     });
 
     oferta.forEach((oferta) => {

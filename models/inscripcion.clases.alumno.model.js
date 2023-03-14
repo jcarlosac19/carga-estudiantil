@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const materiasIncripcionAlumno = new mongoose.Schema(
   {
-    trimestre :   { type: ObjectId, ref: 'trimestre', required: true},
+    trimestre :   { type: ObjectId, ref: 'trimestres', required: true},
     materia   :   { type: ObjectId, ref: 'ofertaAcademica', required: true},
     usuario   :   { type: ObjectId, ref: 'usuario', required: true}
   },
