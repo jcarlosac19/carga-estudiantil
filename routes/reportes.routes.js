@@ -3,7 +3,6 @@ const controller = require("../controllers/reportes.controller");
 
 const app = Router();
 
-app.get("/ofertas", controller.reporte);
-app.get("/solicitudes", controller.reporte);
+app.get("/:id", controller.reporte);
 
 module.exports = app;
