@@ -200,7 +200,12 @@ exports.obtenerInscripcionActualAlumno = async (req, res) => {
         const inscripciones = await inscripcionModel
             .find({trimestre: trimestrePuedeMatricular._id, usuario: userId})
             .populate({path: "trimestre", select: "trimestre anio"})
-            .populate("materia")
+            .populate({
+                path: "materia",
+                populate: {
+                    path:"materia"
+                }
+            })
             .lean();
 
         res.status(200).send(inscripciones);
