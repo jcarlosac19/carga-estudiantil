@@ -1,6 +1,7 @@
 const inscripcionModel = require("../models/inscripcion.clases.alumno.model");
 const ofertaAcademicaModel = require("../models/oferta.academica.model");
 const materiasAprobadasModel = require("../models/materias.aprobadas.alumno.model");
+const trismestresModel = require("../models/trismestres.model");
 
 exports.crearInscripcion = async (req, res) => {
   const records = req.body;
@@ -190,6 +191,30 @@ exports.obtenerClasesOfertadasAlumnoTrimestresActivos = async (req, res) => {
     res.status(500).send({ message: "No se pudieron obtener los registros." });
   }
 };
+
+exports.obtenerInscripcionActualAlumno = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const trimestrePuedeMatricular = await trismestresModel.findOne({puedeMatricular: true}).exec();
+
+        const inscripciones = await inscripcionModel
+            .find({trimestre: trimestrePuedeMatricular._id, usuario: userId})
+            .populate({path: "trimestre", select: "trimestre anio"})
+            .populate({
+                path: "materia",
+                populate: {
+                    path:"materia"
+                }
+            })
+            .lean();
+
+        res.status(200).send(inscripciones);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({message: "Ocurrio un error al obtener la información."});
+    }
+}
+
 
 exports.eliminarProyeccion = async(req, res) => {
     const trimestreId = req.params.id;

@@ -11,4 +11,6 @@ app.get("/ofertadas/inscripcion/:id", controller.obtenerClasesOfertadasAlumnoTri
 
 app.get("/ofertadas/proyeccion/:id", controller.obtenerInscripcionesTrimestreActual);
 
+app.get("/alumnoTrimestreActual/:id", controller.obtenerInscripcionActualAlumno);
+
 module.exports = app;
