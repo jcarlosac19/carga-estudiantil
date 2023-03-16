@@ -218,10 +218,14 @@ exports.obtenerInscripcionActualAlumno = async (req, res) => {
 }
 
 
-exports.eliminarProyeccion = async(req, res) => {
-    const trimestreId = req.params.id;
+exports.eliminarProyeccionTrimestreActual = async(req, res) => {
+    const userId = req.params.id;
 
-    inscripcionModel.findOneAndDelete({ trimestre: trimestreId })
+    const trimestrePuedeMatricular = await trismestresModel.findOne({puedeMatricular: true}).exec();
+
+    if (trimestrePuedeMatricular === null) res.status(400).send({message: "No se pudo eliminar la proyeccion."})
+
+    inscripcionModel.deleteMany({ trimestre: trimestrePuedeMatricular._id, usuario: userId })
     .then(() => {
         res.status(201).send({message: "Se elimno la proyeccion exitosamente."});
     })
