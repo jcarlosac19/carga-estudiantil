@@ -7,6 +7,6 @@ app.post("/", controller.agregarMateriasAprobadas);
 
 app.delete("/:id", controller.eliminarMateriaAprobada);
 
-app.get("/:id", controller.obtenerMateriasAprobadas);
+app.get("/", controller.obtenerMateriasAprobadas);
 
 module.exports = app;

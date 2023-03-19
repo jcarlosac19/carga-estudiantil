@@ -12,20 +12,18 @@ exports.register = async (req, res) => {
       email: email.toLowerCase(),
       password: encryptedPassword,
       account,
-      phone
+      phone,
     });
 
     const token = auth.createToken(user._id, email);
 
-    res.status(201).send(
-      {
-        message: "Se creo la cuenta exitosamente.",
-        token: token
-      });
-
-    } catch (err) {
-      res.status(400).send({message: "Hubo un error inesperado."})
-    }
+    res.status(201).send({
+      message: "Se creo la cuenta exitosamente.",
+      token: token,
+    });
+  } catch (err) {
+    res.status(400).send({ message: "Hubo un error inesperado." });
+  }
 };
 
 exports.login = async (req, res) => {
@@ -37,13 +35,13 @@ exports.login = async (req, res) => {
 
       user.token = token;
 
-      res.status(201).json({
+      res.status(200).json({
         message: "Las credenciales han sido validadas.",
         token: token,
-        userId: user._id
+        userId: user._id,
       });
     } else {
-      res.status(400).send({message: "Las credenciales son invalidas."});
+      res.status(400).send({ message: "Las credenciales son invalidas." });
     }
   } catch (err) {
     console.log(err);

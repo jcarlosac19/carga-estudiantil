@@ -1,5 +1,6 @@
 const materiasAprobadasModel = require("../models/materias.aprobadas.alumno.model");
 const cargaAcademicaModel = require("../models/carga.academica.model");
+const userController =  require("../controllers/user.controller");
 
 exports.agregarMateriasAprobadas = async (req, res) => {
   const records = req.body;
@@ -20,7 +21,7 @@ exports.agregarMateriasAprobadas = async (req, res) => {
 
 exports.obtenerMateriasAprobadas = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const userId = userController.getUserIdFromToken(req);
 
     let materias = [];
     let materiasAlumno = [];
@@ -142,7 +143,7 @@ exports.eliminarMateriaAprobada = async (req, res) => {
   materiasAprobadasModel
     .deleteOne({ _id: materiaId })
     .then(() => {
-      res.status(201).send({ message: "Se elimno el registros exitosamente." });
+      res.status(204).send({ message: "Se elimno el registros exitosamente." });
     })
     .catch((err) => {
       res.status(400).send({ message: "No se pudo eliminar el registro." });
