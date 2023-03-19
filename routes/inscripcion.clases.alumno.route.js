@@ -7,10 +7,10 @@ app.post("/", controller.crearInscripcion);
 
 app.delete("/:id", controller.eliminarProyeccionTrimestreActual);
 
-app.get("/ofertadas/inscripcion/:id", controller.obtenerClasesOfertadasAlumnoTrimestresActivos);
+app.get("/ofertadas/inscripcion", controller.obtenerClasesOfertadasAlumnoTrimestresActivos);
 
-app.get("/ofertadas/proyeccion/:id", controller.obtenerInscripcionesTrimestreActual);
+app.get("/ofertadas/proyeccion", controller.obtenerInscripcionesTrimestreActual);
 
-app.get("/alumnoTrimestreActual/:id", controller.obtenerInscripcionActualAlumno);
+app.get("/alumnoTrimestreActual", controller.obtenerInscripcionActualAlumno);
 
 module.exports = app;
