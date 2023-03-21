@@ -1,5 +1,6 @@
 const jwtActions = require("../middleware/jwt.auth");
 const userSchema = require("../models/usuario.model");
+const bcrypt = require("bcryptjs");
 
 const getUserIdFromToken = (req) => {
   let token = req.headers["authorization"];
@@ -53,4 +54,46 @@ const currentUser = (req, res) => {
     .catch((error) => res.status(401).json({ message: error }));
 };
 
-module.exports = { getUserIdFromToken, currentUser, findUserById };
+const getAllUsers = (req, res) => {
+  userSchema.find({})
+  .then(data =>{
+    res.status(201).send(data);
+  })
+  .catch(err=>{
+    res.status(500).send({message: "No se obtuvieron los registros."})
+  })
+}
+
+const updateUserById = async(req, res) => {
+  const id = req.params.id;
+  const {name, lastName, email, role, active, account, phone } = req.body;
+  let { password } = req.body;
+
+  if(password) {
+    password = await bcrypt.hash(password, 10);
+  }
+
+  update = {
+    ...(name                 && { name }),
+    ...(lastName             && { lastName }),
+    ...(email                && { email }),
+    ...(role                 && { role }),
+    ...(active !== undefined && { active }),
+    ...(account              && { account }),
+    ...(phone                && { phone }),
+    ...(password             && { password })
+  }
+
+  userSchema.findOneAndUpdate({_id: id}, update, {
+    new: true
+  })
+  .then(()=>{
+    res.status(201).send({message: "Se actualizo el registro exitosamente."});
+  })
+  .catch(err=>{
+    res.status(500).send({message: "No se pudo actualizar el registro."})
+  })
+}
+
+
+module.exports = { getUserIdFromToken, currentUser, findUserById, getAllUsers, updateUserById };

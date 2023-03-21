@@ -21,7 +21,7 @@ exports.agregarMateriasAprobadas = async (req, res) => {
 
 exports.obtenerMateriasAprobadas = async (req, res) => {
   try {
-    const userId = userController.getUserIdFromToken(req);
+    const userId = req.user.user_id;
 
     let materias = [];
     let materiasAlumno = [];
@@ -30,6 +30,7 @@ exports.obtenerMateriasAprobadas = async (req, res) => {
       .find({ usuario: userId })
       .populate("materia")
       .exec();
+
     let cargaAcademica = await cargaAcademicaModel
       .find({})
       .populate("version")
@@ -82,60 +83,6 @@ exports.obtenerMateriasAprobadas = async (req, res) => {
     res.status(500).send({ message: "No se pudieron obtener los registros." });
   }
 };
-
-// exports.obtenerMateriasAprobadas = async (req, res) => {
-//   const userId = req.params.id;
-
-//   const materiasAprobadas = await materiasAprobadasModel
-//     .find({ usuario: userId })
-//     .populate("materia")
-//     .exec();
-//   const cargaAcademica = await cargaAcademicaModel
-//     .find({})
-//     .populate("version")
-//     .exec();
-//   const activeCargaAcademica = cargaAcademica.filter(
-//     (doc) => doc.version.estaActiva === true
-//   );
-
-//   const materiasAlumno = {};
-//   materiasAprobadas.forEach(({ materia }) => {
-//     materiasAlumno[materia.codigoMateria] = true;
-//   });
-
-//   const materias = activeCargaAcademica.map(
-//     ({
-//       _id,
-//       nombreMateria,
-//       codigoMateria,
-//       nombreCarrera,
-//       anio,
-//       requisitoUno,
-//       requisitoDos,
-//     }) => {
-//       const requisitos = [];
-//       if (requisitoUno) requisitos.push(requisitoUno);
-//       if (requisitoDos) requisitos.push(requisitoDos);
-//       return {
-//         _id,
-//         materiaNombre: nombreMateria,
-//         codigoMateria,
-//         nombreCarrera,
-//         anio,
-//         requisitos,
-//         aprobada: materiasAlumno[codigoMateria] || false,
-//         cumpleRequisitos:
-//           !requisitos ||
-//           requisitos.every((requisito) => materiasAlumno[requisito]),
-//         puedeMatricular:
-//           requisitos.every((requisito) => materiasAlumno[requisito]) &&
-//           !materiasAlumno[codigoMateria],
-//       };
-//     }
-//   );
-
-//   res.status(200).send(materias);
-// };
 
 exports.eliminarMateriaAprobada = async (req, res) => {
   const materiaId = req.params.id;
