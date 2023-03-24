@@ -8,14 +8,18 @@ const solicitudesAcademicasReporte = async function (quarter, callback) {
     trimestre: quarter,
   };
 
-  const report = {};
   const solicitudes = await solicitudesModel
     .find(filter)
-    .populate("materia usuario trimestre horario dias")
+    .populate({ path: "materia",   select: "codigoMateria nombreMateria nombreCarrera requisitoUno requisitoDos"})
+    .populate({ path: "usuario",   select: "name lastName email account phone"})
+    .populate({ path: "trimestre", select: "anio trimestre"})
+    .populate({ path: "horario",   select: "horario duracionMinutos"})
+    .populate({ path: "dias",      select: "numeroDias dias"})
     .lean()
     .exec();
+  const columnsToExclude = ["_id","materia._id","usuario._id","horario._id","dias._id","updatedAt","__v"];
   utils
-    .convertJSONtoCSV(solicitudes, [])
+    .convertJSONtoCSV(solicitudes, columnsToExclude)
     .then((data) => {
       callback(null, data);
     })
@@ -26,23 +30,27 @@ const solicitudesAcademicasReporte = async function (quarter, callback) {
 };
 
 async function proyeccionOfertaAcademicaReporte(quarter, callback) {
+
+  const filter = {
+    trimestre: quarter,
+  };
+
   const inscripciones = await inscripcionesModel
-    .find({})
-    .populate({
-      path: "materia",
-      populate: {
-        path: "trimestre",
-        match: {
-          trimestre: {
-            $eq: quarter,
-          },
-        },
-      },
+    .find(filter)
+    .populate({ path: "materia",
+                select: "horario ciudad sede tipoDeAsistencia dias duracion cupos",
+                populate: {
+                            path: "materia",
+                            select: "codigoMateria nombreMateria codigoCarrera nombreCarrera requisitoUno requisitoDos"
+                          }
     })
+    .populate({path: "trimestre", select: "anio trimestre"})
+    .populate({path: "usuario", select: "name lastName email account phone"})
     .lean()
     .exec();
+  const columnsToExclude = ["_id","trimestre._id","materia._id","materia.materia._id","usuario._id","__v","updatedAt"]
   utils
-    .convertJSONtoCSV(inscripciones, [])
+    .convertJSONtoCSV(inscripciones, columnsToExclude)
     .then((data) => {
       callback(null, data);
     })
