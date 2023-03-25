@@ -5,7 +5,7 @@ const app = Router();
 
 app.post("/", controller.crearInscripcion);
 
-app.delete("/:id", controller.eliminarProyeccionTrimestreActual);
+app.delete("/", controller.eliminarProyeccionTrimestreActual);
 
 app.get("/ofertadas/inscripcion", controller.obtenerClasesOfertadasAlumnoTrimestresActivos);
 
