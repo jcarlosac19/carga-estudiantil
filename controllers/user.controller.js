@@ -56,6 +56,7 @@ const currentUser = (req, res) => {
 
 const getAllUsers = (req, res) => {
   userSchema.find({})
+  .select(["-password"])
   .then(data =>{
     res.status(201).send(data);
   })
