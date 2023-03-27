@@ -14,7 +14,8 @@ const cargaAcademica = new mongoose.Schema(
     requisitoUnidadesValorativas  : { type: String, default: null },
     unidadesValorativas           : { type: Number, default: null },
     plan                          : { type: Number, default: null },
-    requerimientoIndiceGraduacion : { type: Number, default: 0 }
+    requerimientoIndiceGraduacion : { type: Number, default: 0 },
+    duracionSemanal: { type: Number, default: 0 }
   },
   {
     timestamps: {

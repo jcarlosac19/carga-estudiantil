@@ -57,6 +57,7 @@ exports.obtenerMateriasAprobadas = async (req, res) => {
         nombreCarrera: materia.nombreCarrera,
         anio: materia.anio,
         requisitos: requisitos,
+        duracionSemanal: materia.duracionSemanal,
         aprobada: false,
         cumpleRequisitos: false,
         puedeMatricular: false,
