@@ -65,7 +65,7 @@ exports.eliminarTrimestre = async (req, res) => {
     await trismestresModel.deleteOne({ _id: id });
 
     res
-      .status(204)
+      .status(200)
       .send({
         message:
           "Se elimino el trimestra y toda la informacion relacionada a esta, de manera exitosa.",

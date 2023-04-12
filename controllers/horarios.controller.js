@@ -32,7 +32,7 @@ exports.eliminarHorario = async (req, res) => {
   await horariosModel
     .deleteOne({ _id: idHorario })
     .then(() => {
-      res.status(204).send({ message: "Se elimino el horario exitosamente." });
+      res.status(200).send({ message: "Se elimino el horario exitosamente." });
     })
     .catch((err) => {
       res.status(400).send({ message: "No pudo eliminar el horario." });

@@ -91,7 +91,7 @@ exports.eliminarMateriaAprobada = async (req, res) => {
   materiasAprobadasModel
     .deleteOne({ _id: materiaId })
     .then(() => {
-      res.status(204).send({ message: "Se elimno el registros exitosamente." });
+      res.status(200).send({ message: "Se elimno el registros exitosamente." });
     })
     .catch((err) => {
       res.status(400).send({ message: "No se pudo eliminar el registro." });

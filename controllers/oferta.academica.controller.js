@@ -61,7 +61,7 @@ exports.eliminarOfertaAcademica = async (req, res) => {
     .deleteMany({})
     .then(() => {
       res
-        .status(204)
+        .status(200)
         .send({ message: "Se elimino la oferta academica exitosamente." });
     })
     .catch((err) => {
